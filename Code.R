@@ -1,5 +1,4 @@
 #Import Data From Excel. The Template Sheet
-setwd("~/Desktop/My Files/Projects/BraveVentures")
 libs <- c("dplyr", "magrittr", "ggplot2", "readxl", "caret", "tidyr", "GGally",
           "data.table",  "plotly", "lubridate", "mice", "lettercase",
           "base", "plyr", "readr")
@@ -16,11 +15,16 @@ Check_case<- function(df){data.frame(lapply(df, function(v) {
   else return(v)
 }))
 }
-
+vector <-c("category", "currency", "country_location")
 ####################
 #Import data set
 Fundraising <- read_csv("DS_Data Task_Fundraising.csv") %>%
-  mutate(deadline_date = as.Date(deadline_date, format = '%m/%d/%Y')) %>%
-  mutate(launch_time = as.Date(launch_time, format = '%m/%d/%Y'))
-View(Fundraising)
-table(Fundraising$end_state)
+  dplyr::mutate(deadline_date = as.Date(deadline_date, format = '%m/%d/%Y')) %>%
+  dplyr::mutate(launch_time = as.Date(launch_time, format = '%m/%d/%Y')) %>%
+  dplyr::mutate_if(is.character, as.factor) %>%
+  dplyr::mutate(time_diff = deadline_date - launch_time) %>%
+  dplyr::select(-c(launch_time, deadline_date)) 
+  
+  
+str(Fundraising)
+table(Fundraising$category)
