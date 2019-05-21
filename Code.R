@@ -23,8 +23,10 @@ Fundraising <- read_csv("DS_Data Task_Fundraising.csv") %>%
   dplyr::mutate(launch_time = as.Date(launch_time, format = '%m/%d/%Y')) %>%
   dplyr::mutate_if(is.character, as.factor) %>%
   dplyr::mutate(time_diff = deadline_date - launch_time) %>%
-  dplyr::select(-c(launch_time, deadline_date)) 
-  
+  dplyr::select(-c(launch_time, deadline_date)) %>%
+  dplyr::mutate(category = as.numeric( factor(category) ) -1) %>%
+  dplyr::mutate(currency = as.numeric( factor(currency) ) -1) %>%
+  dplyr::mutate(country_location = as.numeric( factor(country_location) ) -1)
   
 str(Fundraising)
 table(Fundraising$category)
